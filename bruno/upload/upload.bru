@@ -1,0 +1,20 @@
+meta {
+  name: Upload CSV
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/upload
+  body: file
+  auth: none
+}
+
+headers {
+  Content-Type: text/csv
+  x-api-key: {{apiKey}}
+}
+
+body:file {
+  ./colours.csv
+}

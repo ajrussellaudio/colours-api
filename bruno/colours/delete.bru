@@ -1,0 +1,15 @@
+meta {
+  name: Delete Colour
+  type: http
+  seq: 5
+}
+
+delete {
+  url: https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/colours/{colour_id}
+  body: none
+  auth: none
+}
+
+headers {
+  x-api-key: {{apiKey}}
+}

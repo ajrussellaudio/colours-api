@@ -1,0 +1,26 @@
+meta {
+  name: Create Colour
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/colours
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: {{apiKey}}
+}
+
+body:json {
+  {
+    "name": "Prussian Blue",
+    "c": 100,
+    "m": 72,
+    "y": 0,
+    "k": 6
+  }
+}

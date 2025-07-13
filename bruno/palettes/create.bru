@@ -1,0 +1,25 @@
+meta {
+  name: Create Palette
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/palettes
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: {{apiKey}}
+}
+
+body:json {
+  {
+    "name": "My new palette",
+    "colours": [
+      "{colour_id}"
+    ]
+  }
+}

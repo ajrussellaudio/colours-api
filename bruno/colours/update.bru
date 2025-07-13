@@ -1,0 +1,26 @@
+meta {
+  name: Update Colour
+  type: http
+  seq: 4
+}
+
+put {
+  url: https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/colours/{colour_id}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: {{apiKey}}
+}
+
+body:json {
+  {
+    "name": "A new name",
+    "c": 100,
+    "m": 72,
+    "y": 0,
+    "k": 6
+  }
+}
