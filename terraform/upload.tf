@@ -42,3 +42,11 @@ resource "aws_api_gateway_integration" "upload_integration" {
   type        = "AWS_PROXY"
   uri         = aws_lambda_function.upload_function.invoke_arn
 }
+
+resource "aws_lambda_permission" "upload_permission" {
+  statement_id  = "AllowAPIGatewayInvokeUpload"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.upload_function.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}

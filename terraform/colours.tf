@@ -135,6 +135,14 @@ resource "aws_api_gateway_integration" "create_colour_integration" {
   uri         = aws_lambda_function.create_colour_function.invoke_arn
 }
 
+resource "aws_lambda_permission" "create_colour_permission" {
+  statement_id  = "AllowAPIGatewayInvokeCreateColour"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.create_colour_function.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
 # Get
 resource "aws_api_gateway_method" "get_colour_method" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
@@ -151,6 +159,14 @@ resource "aws_api_gateway_integration" "get_colour_integration" {
   integration_http_method = "POST"
   type        = "AWS_PROXY"
   uri         = aws_lambda_function.get_colour_function.invoke_arn
+}
+
+resource "aws_lambda_permission" "get_colour_permission" {
+  statement_id  = "AllowAPIGatewayInvokeGetColour"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.get_colour_function.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
 }
 
 # List
@@ -171,6 +187,14 @@ resource "aws_api_gateway_integration" "list_colours_integration" {
   uri         = aws_lambda_function.list_colours_function.invoke_arn
 }
 
+resource "aws_lambda_permission" "list_colours_permission" {
+  statement_id  = "AllowAPIGatewayInvokeListColours"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.list_colours_function.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
 # Update
 resource "aws_api_gateway_method" "update_colour_method" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
@@ -189,6 +213,14 @@ resource "aws_api_gateway_integration" "update_colour_integration" {
   uri         = aws_lambda_function.update_colour_function.invoke_arn
 }
 
+resource "aws_lambda_permission" "update_colour_permission" {
+  statement_id  = "AllowAPIGatewayInvokeUpdateColour"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.update_colour_function.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
 # Delete
 resource "aws_api_gateway_method" "delete_colour_method" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
@@ -205,4 +237,12 @@ resource "aws_api_gateway_integration" "delete_colour_integration" {
   integration_http_method = "POST"
   type        = "AWS_PROXY"
   uri         = aws_lambda_function.delete_colour_function.invoke_arn
+}
+
+resource "aws_lambda_permission" "delete_colour_permission" {
+  statement_id  = "AllowAPIGatewayInvokeDeleteColour"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.delete_colour_function.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
 }
