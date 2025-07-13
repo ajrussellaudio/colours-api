@@ -4,7 +4,7 @@ A serverless API for managing colours and palettes.
 
 ## API Endpoints
 
-The base URL for the API is `https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1`
+The base URL for the API is `https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/`
 
 You will need to provide an API key in the `x-api-key` header for all requests.
 
@@ -13,7 +13,7 @@ You will need to provide an API key in the `x-api-key` header for all requests.
 #### Create a new colour
 
 ```bash
-curl -X POST https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1colours \
+curl -X POST https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/colours \
 -H "Content-Type: application/json" \
 -H "x-api-key: YOUR_API_KEY" \
 -d '{
@@ -28,19 +28,19 @@ curl -X POST https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1colours \
 #### List all colours
 
 ```bash
-curl -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1colours
+curl -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/colours
 ```
 
 #### Get a specific colour
 
 ```bash
-curl -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1colours/{colour_id}
+curl -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/colours/{colour_id}
 ```
 
 #### Update a specific colour
 
 ```bash
-curl -X PUT https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1colours/{colour_id} \
+curl -X PUT https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/colours/{colour_id} \
 -H "Content-Type: application/json" \
 -H "x-api-key: YOUR_API_KEY" \
 -d '{
@@ -55,7 +55,7 @@ curl -X PUT https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1colours/{co
 #### Delete a specific colour
 
 ```bash
-curl -X DELETE -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1colours/{colour_id}
+curl -X DELETE -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/colours/{colour_id}
 ```
 
 ### Palettes API
@@ -63,7 +63,7 @@ curl -X DELETE -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-we
 #### Create a new palette
 
 ```bash
-curl -X POST https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1palettes \
+curl -X POST https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/palettes \
 -H "Content-Type: application/json" \
 -H "x-api-key: YOUR_API_KEY" \
 -d '{
@@ -77,19 +77,19 @@ curl -X POST https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1palettes \
 #### List all palettes
 
 ```bash
-curl -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1palettes
+curl -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/palettes
 ```
 
 #### Get a specific palette
 
 ```bash
-curl -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1palettes/{palette_id}
+curl -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/palettes/{palette_id}
 ```
 
 #### Update a specific palette
 
 ```bash
-curl -X PUT https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1palettes/{palette_id} \
+curl -X PUT https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/palettes/{palette_id} \
 -H "Content-Type: application/json" \
 -H "x-api-key: YOUR_API_KEY" \
 -d '{
@@ -101,7 +101,7 @@ curl -X PUT https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1palettes/{p
 #### Delete a specific palette
 
 ```bash
-curl -X DELETE -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1palettes/{palette_id}
+curl -X DELETE -H "x-api-key: YOUR_API_KEY" https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/palettes/{palette_id}
 ```
 
 ### Upload API
@@ -118,7 +118,7 @@ Prussian Blue,100,72,0,6
 Then run the following command:
 
 ```bash
-curl -X POST https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1upload \
+curl -X POST https://xejggz5t2a.execute-api.eu-west-1.amazonaws.com/v1/upload \
 -H "Content-Type: text/csv" \
 -H "x-api-key: YOUR_API_KEY" \
 --data-binary @colours.csv
