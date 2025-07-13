@@ -1,7 +1,7 @@
 
 resource "aws_cloudfront_distribution" "api_distribution" {
   origin {
-    domain_name = "${aws_api_gateway_rest_api.api.id}.execute-api.${data.aws_region.current.name}.amazonaws.com"
+    domain_name = "${aws_api_gateway_rest_api.api.id}.execute-api.${data.aws_region.current.id}.amazonaws.com"
     origin_id   = "apigw"
     origin_path = "/${aws_api_gateway_stage.api_stage.stage_name}"
 

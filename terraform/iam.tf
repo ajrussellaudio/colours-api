@@ -34,7 +34,8 @@ resource "aws_iam_role_policy" "dynamodb_policy" {
         "dynamodb:PutItem",
         "dynamodb:Scan",
         "dynamodb:Query",
-        "dynamodb:BatchWriteItem"
+        "dynamodb:BatchWriteItem",
+        "dynamodb:BatchGetItem"
       ]
       Effect   = "Allow"
       Resource = [
