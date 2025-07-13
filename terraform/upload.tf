@@ -1,3 +1,25 @@
+data "archive_file" "upload_lambda" {
+  type        = "zip"
+  source_file = "${path.module}/../dist/upload.js"
+  output_path = "${path.module}/../dist/upload.zip"
+}
+
+resource "aws_lambda_function" "upload_function" {
+  function_name = "upload-api"
+  handler       = "upload.handler"
+  role          = aws_iam_role.lambda_exec_role.arn
+  runtime       = "nodejs16.x"
+
+  filename         = data.archive_file.upload_lambda.output_path
+  source_code_hash = data.archive_file.upload_lambda.output_base64sha256
+
+  environment {
+    variables = {
+      COLOURS_TABLE = aws_dynamodb_table.colours_table.name
+    }
+  }
+}
+
 resource "aws_api_gateway_resource" "upload" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id

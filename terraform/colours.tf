@@ -1,3 +1,110 @@
+# Colours Lambdas
+
+data "archive_file" "create_colour_lambda" {
+  type        = "zip"
+  source_file = "${path.module}/../dist/colours/create.js"
+  output_path = "${path.module}/../dist/create_colour.zip"
+}
+
+resource "aws_lambda_function" "create_colour_function" {
+  function_name = "create-colour"
+  handler       = "create.handler"
+  role          = aws_iam_role.lambda_exec_role.arn
+  runtime       = "nodejs16.x"
+  filename      = data.archive_file.create_colour_lambda.output_path
+  source_code_hash = data.archive_file.create_colour_lambda.output_base64sha256
+
+  environment {
+    variables = {
+      COLOURS_TABLE = aws_dynamodb_table.colours_table.name
+    }
+  }
+}
+
+data "archive_file" "get_colour_lambda" {
+  type        = "zip"
+  source_file = "${path.module}/../dist/colours/get.js"
+  output_path = "${path.module}/../dist/get_colour.zip"
+}
+
+resource "aws_lambda_function" "get_colour_function" {
+  function_name = "get-colour"
+  handler       = "get.handler"
+  role          = aws_iam_role.lambda_exec_role.arn
+  runtime       = "nodejs16.x"
+  filename      = data.archive_file.get_colour_lambda.output_path
+  source_code_hash = data.archive_file.get_colour_lambda.output_base64sha256
+
+  environment {
+    variables = {
+      COLOURS_TABLE = aws_dynamodb_table.colours_table.name
+    }
+  }
+}
+
+data "archive_file" "list_colours_lambda" {
+  type        = "zip"
+  source_file = "${path.module}/../dist/colours/list.js"
+  output_path = "${path.module}/../dist/list_colours.zip"
+}
+
+resource "aws_lambda_function" "list_colours_function" {
+  function_name = "list-colours"
+  handler       = "list.handler"
+  role          = aws_iam_role.lambda_exec_role.arn
+  runtime       = "nodejs16.x"
+  filename      = data.archive_file.list_colours_lambda.output_path
+  source_code_hash = data.archive_file.list_colours_lambda.output_base64sha256
+
+  environment {
+    variables = {
+      COLOURS_TABLE = aws_dynamodb_table.colours_table.name
+    }
+  }
+}
+
+data "archive_file" "update_colour_lambda" {
+  type        = "zip"
+  source_file = "${path.module}/../dist/colours/update.js"
+  output_path = "${path.module}/../dist/update_colour.zip"
+}
+
+resource "aws_lambda_function" "update_colour_function" {
+  function_name = "update-colour"
+  handler       = "update.handler"
+  role          = aws_iam_role.lambda_exec_role.arn
+  runtime       = "nodejs16.x"
+  filename      = data.archive_file.update_colour_lambda.output_path
+  source_code_hash = data.archive_file.update_colour_lambda.output_base64sha256
+
+  environment {
+    variables = {
+      COLOURS_TABLE = aws_dynamodb_table.colours_table.name
+    }
+  }
+}
+
+data "archive_file" "delete_colour_lambda" {
+  type        = "zip"
+  source_file = "${path.module}/../dist/colours/delete.js"
+  output_path = "${path.module}/../dist/delete_colour.zip"
+}
+
+resource "aws_lambda_function" "delete_colour_function" {
+  function_name = "delete-colour"
+  handler       = "delete.handler"
+  role          = aws_iam_role.lambda_exec_role.arn
+  runtime       = "nodejs16.x"
+  filename      = data.archive_file.delete_colour_lambda.output_path
+  source_code_hash = data.archive_file.delete_colour_lambda.output_base64sha256
+
+  environment {
+    variables = {
+      COLOURS_TABLE = aws_dynamodb_table.colours_table.name
+    }
+  }
+}
+
 resource "aws_api_gateway_resource" "colours" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id
