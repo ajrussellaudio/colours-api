@@ -142,3 +142,70 @@ resource "aws_lambda_permission" "api_gateway_permission" {
 
   source_arn = "${aws_apigatewayv2_api.api.execution_arn}/*/*"
 }
+
+data "archive_file" "palettes_lambda" {
+  type        = "zip"
+  source_dir  = "${path.module}/../dist"
+  output_path = "${path.module}/../dist/palettes.zip"
+}
+
+resource "aws_lambda_function" "palettes_function" {
+  function_name = "palettes-api"
+  handler       = "palettes.handler"
+  role          = aws_iam_role.lambda_exec_role.arn
+  runtime       = "nodejs16.x"
+
+  filename         = data.archive_file.palettes_lambda.output_path
+  source_code_hash = data.archive_file.palettes_lambda.output_base64sha256
+
+  environment {
+    variables = {
+      PALETTES_TABLE = aws_dynamodb_table.palettes_table.name
+    }
+  }
+}
+
+resource "aws_apigatewayv2_integration" "palettes_integration" {
+  api_id           = aws_apigatewayv2_api.api.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = aws_lambda_function.palettes_function.invoke_arn
+}
+
+resource "aws_apigatewayv2_route" "palettes_route_post" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "POST /palettes"
+  target    = "integrations/${aws_apigatewayv2_integration.palettes_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "palettes_route_get_all" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "GET /palettes"
+  target    = "integrations/${aws_apigatewayv2_integration.palettes_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "palettes_route_get_one" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "GET /palettes/{id}"
+  target    = "integrations/${aws_apigatewayv2_integration.palettes_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "palettes_route_put" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "PUT /palettes/{id}"
+  target    = "integrations/${aws_apigatewayv2_integration.palettes_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "palettes_route_delete" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "DELETE /palettes/{id}"
+  target    = "integrations/${aws_apigatewayv2_integration.palettes_integration.id}"
+}
+
+resource "aws_lambda_permission" "api_gateway_permission_palettes" {
+  statement_id  = "AllowAPIGatewayInvokePalettes"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.palettes_function.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.api.execution_arn}/*/*"
+}
