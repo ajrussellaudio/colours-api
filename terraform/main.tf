@@ -117,8 +117,9 @@ resource "aws_apigatewayv2_route" "create_colour_route" {
   target    = "integrations/${aws_apigatewayv2_integration.create_colour_integration.id}"
 }
 
+
 resource "aws_lambda_permission" "create_colour_permission" {
-  statement_id  = "AllowAPIGatewayInvoke"
+  statement_id  = "AllowAPIGatewayInvokeCreateColour"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.create_colour_function.function_name
   principal     = "apigateway.amazonaws.com"
@@ -161,7 +162,7 @@ resource "aws_apigatewayv2_route" "get_colour_route" {
 }
 
 resource "aws_lambda_permission" "get_colour_permission" {
-  statement_id  = "AllowAPIGatewayInvoke"
+  statement_id  = "AllowAPIGatewayInvokeGetColour"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.get_colour_function.function_name
   principal     = "apigateway.amazonaws.com"
@@ -202,7 +203,7 @@ resource "aws_apigatewayv2_route" "list_colours_route" {
 }
 
 resource "aws_lambda_permission" "list_colours_permission" {
-  statement_id  = "AllowAPIGatewayInvoke"
+  statement_id  = "AllowAPIGatewayInvokeListColours"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.list_colours_function.function_name
   principal     = "apigateway.amazonaws.com"
@@ -243,7 +244,7 @@ resource "aws_apigatewayv2_route" "update_colour_route" {
 }
 
 resource "aws_lambda_permission" "update_colour_permission" {
-  statement_id  = "AllowAPIGatewayInvoke"
+  statement_id  = "AllowAPIGatewayInvokeUpdateColour"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.update_colour_function.function_name
   principal     = "apigateway.amazonaws.com"
@@ -283,8 +284,14 @@ resource "aws_apigatewayv2_route" "delete_colour_route" {
   target    = "integrations/${aws_apigatewayv2_integration.delete_colour_integration.id}"
 }
 
-source_arn    = "${aws_apigatewayv2_api.api.execution_arn}/*/*"
+resource "aws_lambda_permission" "delete_colour_permission" {
+  statement_id  = "AllowAPIGatewayInvokeDeleteColour"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.delete_colour_function.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.api.execution_arn}/*/*"
 }
+
 
 # Palettes Lambdas
 
