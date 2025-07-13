@@ -15,6 +15,7 @@ You will need to provide an API key in the `x-api-key` header for all requests.
 ```bash
 curl -X POST https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours \
 -H "Content-Type: application/json" \
+-H "x-api-key: YOUR_API_KEY" \
 -d '{
   "name": "Prussian Blue",
   "c": 100,
@@ -27,13 +28,13 @@ curl -X POST https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours \
 #### List all colours
 
 ```bash
-curl https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours
+curl -H "x-api-key: YOUR_API_KEY" https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours
 ```
 
 #### Get a specific colour
 
 ```bash
-curl https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours/{colour_id}
+curl -H "x-api-key: YOUR_API_KEY" https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours/{colour_id}
 ```
 
 #### Update a specific colour
@@ -41,6 +42,7 @@ curl https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours/{colour_id}
 ```bash
 curl -X PUT https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours/{colour_id} \
 -H "Content-Type: application/json" \
+-H "x-api-key: YOUR_API_KEY" \
 -d '{
   "name": "A new name",
   "c": 100,
@@ -53,7 +55,7 @@ curl -X PUT https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours/{colo
 #### Delete a specific colour
 
 ```bash
-curl -X DELETE https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours/{colour_id}
+curl -X DELETE -H "x-api-key: YOUR_API_KEY" https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours/{colour_id}
 ```
 
 ### Palettes API
@@ -63,17 +65,11 @@ curl -X DELETE https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/colours/{c
 ```bash
 curl -X POST https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes \
 -H "Content-Type: application/json" \
+-H "x-api-key: YOUR_API_KEY" \
 -d '{
   "name": "My new palette",
   "colours": [
-    {
-      "id": "{colour_id}",
-      "name": "Prussian Blue",
-      "c": 100,
-      "m": 72,
-      "y": 0,
-      "k": 6
-    }
+    "{colour_id}"
   ]
 }'
 ```
@@ -81,13 +77,13 @@ curl -X POST https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes \
 #### List all palettes
 
 ```bash
-curl https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes
+curl -H "x-api-key: YOUR_API_KEY" https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes
 ```
 
 #### Get a specific palette
 
 ```bash
-curl https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes/{palette_id}
+curl -H "x-api-key: YOUR_API_KEY" https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes/{palette_id}
 ```
 
 #### Update a specific palette
@@ -95,6 +91,7 @@ curl https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes/{palette_id
 ```bash
 curl -X PUT https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes/{palette_id} \
 -H "Content-Type: application/json" \
+-H "x-api-key: YOUR_API_KEY" \
 -d '{
   "name": "My updated palette",
   "colours": []
@@ -104,7 +101,7 @@ curl -X PUT https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes/{pal
 #### Delete a specific palette
 
 ```bash
-curl -X DELETE https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes/{palette_id}
+curl -X DELETE -H "x-api-key: YOUR_API_KEY" https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/palettes/{palette_id}
 ```
 
 ### Upload API
@@ -123,5 +120,6 @@ Then run the following command:
 ```bash
 curl -X POST https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/upload \
 -H "Content-Type: text/csv" \
+-H "x-api-key: YOUR_API_KEY" \
 --data-binary @colours.csv
 ```
