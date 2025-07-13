@@ -27,7 +27,7 @@ describe('Upload API', () => {
     const result = await handler(event as APIGatewayEvent, {} as any, {} as any);
 
     expect(result.statusCode).toBe(200);
-    expect(JSON.parse(result.body).message).toBe('Upload successful');
+    expect(JSON.parse(result.body).message).toBe('Upload successful. 1 colours added.');
     expect(mockBatchWrite).toHaveBeenCalledWith({
       RequestItems: {
         '': [

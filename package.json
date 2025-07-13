@@ -13,6 +13,7 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@tsconfig/node16": "^16.1.4",
     "@types/aws-lambda": "^8.10.150",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.13",
