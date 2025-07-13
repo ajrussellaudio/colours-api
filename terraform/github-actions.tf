@@ -38,39 +38,10 @@ resource "aws_iam_policy" "github_actions_policy" {
           "apigateway:*",
           "lambda:*",
           "dynamodb:*",
-          "iam:CreateRole",
-          "iam:DeleteRole",
-          "iam:GetRole",
-          "iam:PassRole",
-          "iam:CreatePolicy",
-          "iam:DeletePolicy",
-          "iam:GetPolicy",
-          "iam:AttachRolePolicy",
-          "iam:DetachRolePolicy"
+          "iam:*",
+          "s3:*"
         ],
         Resource = "*"
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:ListBucket",
-          "s3:HeadObject"
-        ],
-        Resource = [
-          aws_s3_bucket.terraform_state.arn,
-          "${aws_s3_bucket.terraform_state.arn}/*"
-        ]
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "dynamodb:GetItem",
-          "dynamodb:PutItem",
-          "dynamodb:DeleteItem"
-        ],
-        Resource = aws_dynamodb_table.terraform_state_lock.arn
       }
     ]
   })
