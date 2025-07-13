@@ -1,5 +1,7 @@
 import { Handler, APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DynamoDB } from 'aws-sdk';
+import { paletteSchema } from '../schemas';
+import { v4 as uuidv4 } from 'uuid';
 
 const dynamoDb = new DynamoDB.DocumentClient();
 const PALETTES_TABLE = process.env.PALETTES_TABLE || '';
@@ -13,13 +15,17 @@ export const handler: Handler = async (event: APIGatewayEvent): Promise<APIGatew
     };
   }
 
-  const { name, colours } = JSON.parse(event.body || '{}');
-  if (!name || !colours || !Array.isArray(colours)) {
+  const body = JSON.parse(event.body || '{}');
+  const validation = paletteSchema.safeParse(body);
+
+  if (!validation.success) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ message: 'Missing required fields' }),
+      body: JSON.stringify({ message: 'Invalid input', errors: validation.error.issues }),
     };
   }
+
+  const { name, colours } = validation.data;
 
   const params = {
     TableName: PALETTES_TABLE,
@@ -30,7 +36,7 @@ export const handler: Handler = async (event: APIGatewayEvent): Promise<APIGatew
     },
     ExpressionAttributeValues: {
       ':name': name,
-      ':colours': colours,
+      ':colours': colours.map(c => ({...c, id: c.id || uuidv4()})),
     },
     ReturnValues: 'ALL_NEW',
   };

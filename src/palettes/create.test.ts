@@ -34,4 +34,26 @@ describe('createPalette', () => {
       }),
     });
   });
+
+  it('should return 400 if the input is invalid', async () => {
+    const event: Partial<APIGatewayEvent> = {
+      httpMethod: 'POST',
+      body: JSON.stringify({
+        name: 'Test Palette',
+        colours: [
+          {
+            name: 'Test Blue',
+            c: 101,
+            m: 50,
+            y: 0,
+            k: 0,
+          },
+        ],
+      }),
+    };
+
+    const result = await handler(event as APIGatewayEvent, {} as any, {} as any);
+
+    expect(result.statusCode).toBe(400);
+  });
 });

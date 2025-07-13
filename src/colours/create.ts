@@ -1,6 +1,7 @@
 import { Handler, APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DynamoDB } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
+import { colourSchema } from '../schemas';
 
 const dynamoDb = new DynamoDB.DocumentClient();
 const COLOURS_TABLE = process.env.COLOURS_TABLE || '';
@@ -15,21 +16,19 @@ type Colour = {
 };
 
 export const handler: Handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
-  const { name, c, m, y, k } = JSON.parse(event.body || '{}');
-  if (!name || c === undefined || m === undefined || y === undefined || k === undefined) {
+  const body = JSON.parse(event.body || '{}');
+  const validation = colourSchema.safeParse(body);
+
+  if (!validation.success) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ message: 'Missing required fields' }),
+      body: JSON.stringify({ message: 'Invalid input', errors: validation.error.issues }),
     };
   }
 
   const newColour: Colour = {
     id: uuidv4(),
-    name,
-    c,
-    m,
-    y,
-    k,
+    ...validation.data,
   };
 
   const params = {

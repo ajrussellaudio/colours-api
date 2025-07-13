@@ -38,4 +38,24 @@ describe('updateColour', () => {
       Key: { id: '123' },
     }));
   });
+
+  it('should return 400 if the input is invalid', async () => {
+    const event: Partial<APIGatewayEvent> = {
+      httpMethod: 'PUT',
+      pathParameters: {
+        id: '123',
+      },
+      body: JSON.stringify({
+        name: 'Updated Blue',
+        c: 101,
+        m: 50,
+        y: 0,
+        k: 0,
+      }),
+    };
+
+    const result = await handler(event as APIGatewayEvent, {} as any, {} as any);
+
+    expect(result.statusCode).toBe(400);
+  });
 });
