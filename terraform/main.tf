@@ -79,6 +79,12 @@ resource "aws_lambda_function" "colours_function" {
 
   filename         = data.archive_file.colours_lambda.output_path
   source_code_hash = data.archive_file.colours_lambda.output_base64sha256
+
+  environment {
+    variables = {
+      COLOURS_TABLE = aws_dynamodb_table.colours_table.name
+    }
+  }
 }
 
 resource "aws_apigatewayv2_api" "api" {
@@ -98,9 +104,33 @@ resource "aws_apigatewayv2_integration" "colours_integration" {
   integration_uri  = aws_lambda_function.colours_function.invoke_arn
 }
 
-resource "aws_apigatewayv2_route" "colours_route" {
+resource "aws_apigatewayv2_route" "colours_route_post" {
   api_id    = aws_apigatewayv2_api.api.id
-  route_key = "ANY /colours"
+  route_key = "POST /colours"
+  target    = "integrations/${aws_apigatewayv2_integration.colours_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "colours_route_get_all" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "GET /colours"
+  target    = "integrations/${aws_apigatewayv2_integration.colours_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "colours_route_get_one" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "GET /colours/{id}"
+  target    = "integrations/${aws_apigatewayv2_integration.colours_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "colours_route_put" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "PUT /colours/{id}"
+  target    = "integrations/${aws_apigatewayv2_integration.colours_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "colours_route_delete" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "DELETE /colours/{id}"
   target    = "integrations/${aws_apigatewayv2_integration.colours_integration.id}"
 }
 
