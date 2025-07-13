@@ -1,6 +1,5 @@
 import { handler } from './upload';
 import { APIGatewayEvent } from 'aws-lambda';
-import { DynamoDB } from 'aws-sdk';
 
 const mockBatchWrite = jest.fn();
 

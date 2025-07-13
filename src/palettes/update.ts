@@ -1,0 +1,50 @@
+import { Handler, APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { DynamoDB } from 'aws-sdk';
+
+const dynamoDb = new DynamoDB.DocumentClient();
+const PALETTES_TABLE = process.env.PALETTES_TABLE || '';
+
+export const handler: Handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
+  const id = event.pathParameters && event.pathParameters.id;
+  if (!id) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: 'Missing id' }),
+    };
+  }
+
+  const { name, colours } = JSON.parse(event.body || '{}');
+  if (!name || !colours || !Array.isArray(colours)) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: 'Missing required fields' }),
+    };
+  }
+
+  const params = {
+    TableName: PALETTES_TABLE,
+    Key: { id },
+    UpdateExpression: 'set #name = :name, colours = :colours',
+    ExpressionAttributeNames: {
+      '#name': 'name',
+    },
+    ExpressionAttributeValues: {
+      ':name': name,
+      ':colours': colours,
+    },
+    ReturnValues: 'ALL_NEW',
+  };
+
+  try {
+    const result = await dynamoDb.update(params).promise();
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result.Attributes),
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: 'Could not update palette', error }),
+    };
+  }
+};
