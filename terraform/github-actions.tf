@@ -55,7 +55,8 @@ resource "aws_iam_policy" "github_actions_policy" {
         Action = [
           "s3:GetObject",
           "s3:PutObject",
-          "s3:ListBucket"
+          "s3:ListBucket",
+          "s3:HeadObject"
         ],
         Resource = [
           aws_s3_bucket.terraform_state.arn,
