@@ -1,5 +1,6 @@
 import { handler } from './update';
 import { APIGatewayEvent } from 'aws-lambda';
+import { v4 as uuidv4 } from 'uuid';
 
 const mockUpdate = jest.fn();
 
@@ -13,6 +14,7 @@ jest.mock('aws-sdk', () => ({
 
 describe('updatePalette', () => {
   it('should update a palette', async () => {
+    const colourId = uuidv4();
     const event: Partial<APIGatewayEvent> = {
       httpMethod: 'PUT',
       pathParameters: {
@@ -20,7 +22,7 @@ describe('updatePalette', () => {
       },
       body: JSON.stringify({
         name: 'Updated Palette',
-        colours: [],
+        colours: [colourId],
       }),
     };
 
@@ -44,15 +46,7 @@ describe('updatePalette', () => {
       },
       body: JSON.stringify({
         name: 'Updated Palette',
-        colours: [
-          {
-            name: 'Test Blue',
-            c: 101,
-            m: 50,
-            y: 0,
-            k: 0,
-          },
-        ],
+        colours: ['not-a-uuid'],
       }),
     };
 

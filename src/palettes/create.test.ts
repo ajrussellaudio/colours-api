@@ -1,5 +1,6 @@
 import { handler } from './create';
 import { APIGatewayEvent } from 'aws-lambda';
+import { v4 as uuidv4 } from 'uuid';
 
 const mockPut = jest.fn();
 
@@ -13,11 +14,12 @@ jest.mock('aws-sdk', () => ({
 
 describe('createPalette', () => {
   it('should create a new palette', async () => {
+    const colourId = uuidv4();
     const event: Partial<APIGatewayEvent> = {
       httpMethod: 'POST',
       body: JSON.stringify({
         name: 'Test Palette',
-        colours: [],
+        colours: [colourId],
       }),
     };
 
@@ -31,6 +33,7 @@ describe('createPalette', () => {
       TableName: '',
       Item: expect.objectContaining({
         name: 'Test Palette',
+        colours: [colourId],
       }),
     });
   });
@@ -40,15 +43,7 @@ describe('createPalette', () => {
       httpMethod: 'POST',
       body: JSON.stringify({
         name: 'Test Palette',
-        colours: [
-          {
-            name: 'Test Blue',
-            c: 101,
-            m: 50,
-            y: 0,
-            k: 0,
-          },
-        ],
+        colours: ['not-a-uuid'],
       }),
     };
 

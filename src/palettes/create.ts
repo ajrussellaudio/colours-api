@@ -6,19 +6,10 @@ import { paletteSchema } from '../schemas';
 const dynamoDb = new DynamoDB.DocumentClient();
 const PALETTES_TABLE = process.env.PALETTES_TABLE || '';
 
-type Colour = {
-  id: string;
-  name: string;
-  c: number;
-  m: number;
-  y: number;
-  k: number;
-};
-
 type Palette = {
   id: string;
   name: string;
-  colours: Colour[];
+  colours: string[];
 };
 
 export const handler: Handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
@@ -35,7 +26,7 @@ export const handler: Handler = async (event: APIGatewayEvent): Promise<APIGatew
   const newPalette: Palette = {
     id: uuidv4(),
     name: validation.data.name,
-    colours: validation.data.colours.map(c => ({...c, id: c.id || uuidv4()}))
+    colours: validation.data.colours,
   };
 
   const params = {

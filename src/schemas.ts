@@ -11,5 +11,5 @@ export const colourSchema = z.object({
 
 export const paletteSchema = z.object({
   name: z.string().min(1),
-  colours: z.array(colourSchema),
+  colours: z.array(z.string().uuid()),
 });

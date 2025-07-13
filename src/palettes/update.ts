@@ -36,7 +36,7 @@ export const handler: Handler = async (event: APIGatewayEvent): Promise<APIGatew
     },
     ExpressionAttributeValues: {
       ':name': name,
-      ':colours': colours.map(c => ({...c, id: c.id || uuidv4()})),
+      ':colours': colours,
     },
     ReturnValues: 'ALL_NEW',
   };
