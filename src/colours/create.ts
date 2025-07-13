@@ -7,7 +7,7 @@ const dynamoDb = new DynamoDB.DocumentClient();
 const COLOURS_TABLE = process.env.COLOURS_TABLE || '';
 
 type Colour = {
-  id: string;
+  id?: string;
   name: string;
   c: number;
   m: number;
@@ -27,8 +27,8 @@ export const handler: Handler = async (event: APIGatewayEvent): Promise<APIGatew
   }
 
   const newColour: Colour = {
-    id: uuidv4(),
     ...validation.data,
+    id: uuidv4(),
   };
 
   const params = {
