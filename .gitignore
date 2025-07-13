@@ -5,6 +5,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Bruno
+bruno/
+
+
 # Terraform
 .terraform
 .terraform.lock.hcl
