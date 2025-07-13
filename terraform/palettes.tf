@@ -31,6 +31,7 @@ resource "aws_apigatewayv2_route" "create_palette_route" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "POST /palettes"
   target    = "integrations/${aws_apigatewayv2_integration.create_palette_integration.id}"
+  api_key_required = true
 }
 
 resource "aws_lambda_permission" "create_palette_permission" {
@@ -72,6 +73,7 @@ resource "aws_apigatewayv2_route" "get_palette_route" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "GET /palettes/{id}"
   target    = "integrations/${aws_apigatewayv2_integration.get_palette_integration.id}"
+  api_key_required = true
 }
 
 resource "aws_lambda_permission" "get_palette_permission" {
@@ -113,6 +115,7 @@ resource "aws_apigatewayv2_route" "list_palettes_route" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "GET /palettes"
   target    = "integrations/${aws_apigatewayv2_integration.list_palettes_integration.id}"
+  api_key_required = true
 }
 
 resource "aws_lambda_permission" "list_palettes_permission" {
@@ -154,6 +157,7 @@ resource "aws_apigatewayv2_route" "update_palette_route" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "PUT /palettes/{id}"
   target    = "integrations/${aws_apigatewayv2_integration.update_palette_integration.id}"
+  api_key_required = true
 }
 
 resource "aws_lambda_permission" "update_palette_permission" {
@@ -195,6 +199,7 @@ resource "aws_apigatewayv2_route" "delete_palette_route" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "DELETE /palettes/{id}"
   target    = "integrations/${aws_apigatewayv2_integration.delete_palette_integration.id}"
+  api_key_required = true
 }
 
 resource "aws_lambda_permission" "delete_palette_permission" {

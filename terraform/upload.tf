@@ -30,6 +30,7 @@ resource "aws_apigatewayv2_route" "upload_route_post" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "POST /upload"
   target    = "integrations/${aws_apigatewayv2_integration.upload_integration.id}"
+  api_key_required = true
 }
 
 resource "aws_lambda_permission" "api_gateway_permission_upload" {

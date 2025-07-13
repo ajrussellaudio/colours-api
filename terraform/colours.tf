@@ -31,6 +31,7 @@ resource "aws_apigatewayv2_route" "create_colour_route" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "POST /colours"
   target    = "integrations/${aws_apigatewayv2_integration.create_colour_integration.id}"
+  api_key_required = true
 }
 
 
@@ -73,6 +74,7 @@ resource "aws_apigatewayv2_route" "get_colour_route" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "GET /colours/{id}"
   target    = "integrations/${aws_apigatewayv2_integration.get_colour_integration.id}"
+  api_key_required = true
 }
 
 resource "aws_lambda_permission" "get_colour_permission" {
@@ -114,6 +116,7 @@ resource "aws_apigatewayv2_route" "list_colours_route" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "GET /colours"
   target    = "integrations/${aws_apigatewayv2_integration.list_colours_integration.id}"
+  api_key_required = true
 }
 
 resource "aws_lambda_permission" "list_colours_permission" {
@@ -155,6 +158,7 @@ resource "aws_apigatewayv2_route" "update_colour_route" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "PUT /colours/{id}"
   target    = "integrations/${aws_apigatewayv2_integration.update_colour_integration.id}"
+  api_key_required = true
 }
 
 resource "aws_lambda_permission" "update_colour_permission" {
@@ -196,6 +200,7 @@ resource "aws_apigatewayv2_route" "delete_colour_route" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "DELETE /colours/{id}"
   target    = "integrations/${aws_apigatewayv2_integration.delete_colour_integration.id}"
+  api_key_required = true
 }
 
 resource "aws_lambda_permission" "delete_colour_permission" {

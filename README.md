@@ -6,6 +6,8 @@ A serverless API for managing colours and palettes.
 
 The base URL for the API is `https://brb6li0t65.execute-api.eu-west-1.amazonaws.com/`
 
+You will need to provide an API key in the `x-api-key` header for all requests.
+
 ### Colours API
 
 #### Create a new colour
